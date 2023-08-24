@@ -1,10 +1,17 @@
+# -*- coding: utf-8 -*-
+'''
+Create Date: 2023/08/24
+Author: @1chooo(Hugo ChunHo Lin)
+Version: v0.0.1
+'''
+
 import os
 import pandas as pd
 from glob import glob
 
 
-root = "/Users/linchunho/Developer/ML-Rainy-Predict/data"
-files = glob('./data/*.csv')
+root = "../data"
+files = glob('../data/*.csv')
 print(files)
 
 

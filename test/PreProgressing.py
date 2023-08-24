@@ -4,7 +4,7 @@ import pandas as pd
 
 
 # Get the root from the computer. Then read the file.
-pathDomestic = os.path.abspath(os.getcwd()) + "/data"
+pathDomestic = os.path.abspath(os.getcwd()) + "../data"
 root = pathDomestic
 data = glob.glob(os.path.join(root, "*.csv"))
 
