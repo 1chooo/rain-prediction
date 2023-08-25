@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("./20years_data.csv")
+df = pd.read_csv("./20_years_data.csv")
 
 df.info()
 df.head()
