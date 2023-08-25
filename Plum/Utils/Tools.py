@@ -69,3 +69,6 @@ def save_model(lr, filename, compress):
         os.makedirs(model_directory)
 
     joblib.dump(lr, filename, compress=compress)
+
+def test_model(lr, StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust):
+    return lr.predict([[StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust]])

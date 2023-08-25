@@ -10,12 +10,14 @@ from os.path import dirname
 from os.path import abspath
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 import numpy as np
 from Plum.Utils.Tools import load_data
 from Plum.Utils.Tools import save_model
+from Plum.Utils.Tools import test_model
+from Plum.Utils.Plot import plot_confusion_matrix
+from Plum.Utils.Plot import plot_evaluation_metrics
+from Plum.Utils.Plot import plot_predicted_probability_distribution
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score
@@ -34,6 +36,7 @@ columns_to_drop = [
     'Cloud Amount'
 ]
 df.drop(columns_to_drop, axis=1, inplace=True)
+
 # Replace missing values
 df.replace(['...', '/'], '-999', inplace=True)
 df.replace('-999', 0.0, inplace=True)
@@ -99,9 +102,6 @@ for col_idx, col_name in columns_to_fill:
         if df.iloc[i, col_idx] == -999.0:
             df.iloc[i, col_idx] = df[col_name].value_counts().idxmax()
 
-X = df.drop(['Precp'], axis=1)
-y = df['Precp']
-
 def train_logistic_regression(df):
     X = df.drop(['Precp'], axis=1)
     y = df['Precp']
@@ -134,14 +134,17 @@ def evaluate_model(y_test, predictions):
 
 lr, X_test, y_test, predictions = train_logistic_regression(df)
 accuracy, recall, precision, confusion = evaluate_model(y_test, predictions)
-    
+
 print("Accuracy:", accuracy)
 print("Recall:", recall)
 print("Precision:", precision)
 print("Confusion Matrix:\n", confusion)
 
-def test_model(lr, StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust):
-    return lr.predict([[StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust]])
+proba = lr.predict_proba(X_test)[:, 1]
+
+plot_confusion_matrix(confusion)
+plot_evaluation_metrics(accuracy, recall, precision)
+plot_predicted_probability_distribution(proba)
 
 first_test = test_model(lr, 900, 1000, 850, 23, 27, 18, 34, 12, 1, 23, 2, 45)
 second_test = test_model(lr, 900, 860, 950, 26, 31, 20, 70, 50, 3, 20, 6, 25)
