@@ -24,6 +24,28 @@ We are using machine learning techniques to predict the likelihood of rain.
 | 林晴葳  |    109601508   | data, code, report |
 | 吳彥叡  |    109601510   |    code, report    |
 
+## Getting Started
+Python version `python3.10.1` with `gradio, scikit-learn, seaborn, pandas, numpy, matplotlib, joblib`
+### Build `venv` for **MacOS**
+```shell
+$ pip3 install virtualenv
+$ virtualenv venv --python=python3.10.1
+$ source venv/bin/activate
+$ pip install -r requirements.txt
+$ deactivate
+$ rm -rf venv     # remove the venv
+```
+
+### Build `venv` for Windows
+```shell
+$ pip install virtualenv
+$ virtualenv venv
+$ venv\Scripts\activate
+$ pip install -r requirements.txt
+$ deactivate
+$ rmdir /s venv     # remove the venv
+```
+
 ## Motivation
 
 從古自今，天氣一直是影響人類生活和經濟發展的重大因素，因此科學家們不斷在尋找最佳的天氣預測方法，而目前普遍的做法是收集大量的觀測數據（氣溫、濕度、風向和風速、氣壓等等），並利用對大氣物理過程的認識來確定未來某地點大氣層的狀態。但由於大氣過程的複雜，因此現今天氣預測總是存在一定的誤差。

@@ -2,7 +2,7 @@
 '''
 Create Date: 2023/08/24
 Author: @1chooo(Hugo ChunHo Lin)
-Version: v0.0.3
+Version: v0.0.4
 '''
 
 import os
@@ -12,6 +12,7 @@ from os.path import join
 from os.path import dirname
 from os.path import abspath
 import joblib
+import matplotlib.pyplot as plt
 
 def load_data() -> pd.DataFrame:
     all_data_path = join(
@@ -71,4 +72,52 @@ def save_model(lr, filename, compress):
     joblib.dump(lr, filename, compress=compress)
 
 def test_model(lr, StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust):
-    return lr.predict([[StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust]])
+    result = lr.predict([[StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust]])
+    # print(result)
+    
+    return result
+
+def get_trained_result(accuracy, recall, precision, confusion) -> None:
+    print("Accuracy:", accuracy)
+    print("Recall:", recall)
+    print("Precision:", precision)
+    print("Confusion Matrix:\n", confusion)
+
+def call_model(path, StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust):
+    modelPretrained = joblib.load(path)
+    result = modelPretrained.predict([[
+        StnPres, StnPresMax, StnPresMin, 
+        T, Tmax, Tmin, 
+        RH, RHmin, WS, 
+        WD, WSGust, WDGust
+    ]])
+
+    result_probability = modelPretrained.predict_proba([[
+        StnPres, StnPresMax, StnPresMin, 
+        T, Tmax, Tmin, 
+        RH, RHmin, WS, 
+        WD, WSGust, WDGust
+    ]])
+
+    print(result, result_probability)
+    return result, result_probability
+
+def plot_scatter_subplots(data_frame, x_columns, y_column, figsize=(16, 12)):
+    num_columns = len(x_columns)
+    num_rows = (num_columns + 3) // 4  # 計算所需的子圖行數
+
+    plt.figure(figsize=figsize)
+
+    for i, x_col in enumerate(x_columns, start=1):
+        plt.subplot(num_rows, 4, i)
+        plt.scatter(data_frame[x_col], data_frame[y_column])
+        plt.xlabel(x_col)
+        plt.ylabel(y_column)
+
+    plt.tight_layout()
+    plt.show()
+
+# 使用範例
+# x_columns = ['StnPres', 'StnPresMax', 'StnPresMin', 'T Max', 'T Min', 'Temperature', 'RH', 'RHMin', 'WS', 'WD', 'WSGust', 'WDGust']
+# y_column = 'Precp'
+# plot_scatter_subplots(df, x_columns, y_column)

@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+'''
+Create Date: 2023/08/26
+Author: @1chooo(Hugo ChunHo Lin)
+Version: v0.0.4
+'''
 
 # The data we have is: StnPres, StnPresMax, StnPresMin, Temperature
 # RH, RHMin, WS, WsGust, WD, WDGust
@@ -8,7 +13,7 @@ import numpy as np
 from flask import Flask, render_template, request, url_for
 import os
 
-modelPretrained = joblib.load("./Precipitation_Predict.pkl")
+modelPretrained = joblib.load("model/plum_prediction.pkl")
 app = Flask(__name__)
 
 @app.route('/')
@@ -89,7 +94,6 @@ def submit():
         currentGustWindSpeed = form_data["currentGustWindSpeed"],
         currentGustWindDirection = form_data["currentGustWindDirection"],
         prediction = prediction)
-
 
 if __name__ == "__main__":
     app.run()
