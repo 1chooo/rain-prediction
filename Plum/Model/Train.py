@@ -2,15 +2,15 @@
 '''
 Create Date: 2023/08/26
 Author: @1chooo(Hugo ChunHo Lin)
-Version: v0.0.4
+Version: v0.0.5
 '''
 
 from os.path import join
 from os.path import dirname
 from os.path import abspath
-from Plum.app.Data import data_preprocessing
-from Plum.app.Model import train_logistic_regression
-from Plum.app.Model import evaluate_model
+from Plum.Data.Data import data_preprocessing
+from Plum.Model.Model import train_logistic_regression
+from Plum.Model.Model import evaluate_model
 from Plum.Utils.Tools import load_data
 from Plum.Utils.Tools import save_model
 from Plum.Utils.Tools import test_model

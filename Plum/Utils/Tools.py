@@ -2,7 +2,7 @@
 '''
 Create Date: 2023/08/24
 Author: @1chooo(Hugo ChunHo Lin)
-Version: v0.0.4
+Version: v0.0.5
 '''
 
 import os
@@ -83,8 +83,15 @@ def get_trained_result(accuracy, recall, precision, confusion) -> None:
     print("Precision:", precision)
     print("Confusion Matrix:\n", confusion)
 
-def call_model(path, StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust):
-    modelPretrained = joblib.load(path)
+def call_model(StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust):
+    model_path = join(
+        dirname(abspath(__file__)),
+        '..',
+        '..',
+        'model', 
+        'plum_prediction.pkl'
+    )
+    modelPretrained = joblib.load(model_path)
     result = modelPretrained.predict([[
         StnPres, StnPresMax, StnPresMin, 
         T, Tmax, Tmin, 
@@ -99,8 +106,21 @@ def call_model(path, StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, 
         WD, WSGust, WDGust
     ]])
 
-    print(result, result_probability)
     return result, result_probability
+
+def get_predict_result(StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust):
+    result, result_probability = call_model(StnPres, StnPresMax, StnPresMin, T, Tmax, Tmin, RH, RHmin, WS, WD, WSGust, WDGust)
+
+    result = result[0]
+
+    if result == 1.:
+        prediction = f'會下雨哦！'
+        confidence = f'{result_probability[0, 0]:.10f}'
+    else:
+        prediction = f'不會下雨哦！'
+        confidence = f'{result_probability[0, 0]:.10f}'
+
+    return prediction, confidence
 
 def plot_scatter_subplots(data_frame, x_columns, y_column, figsize=(16, 12)):
     num_columns = len(x_columns)

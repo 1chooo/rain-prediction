@@ -2,7 +2,7 @@
 '''
 Create Date: 2023/08/26
 Author: @1chooo(Hugo ChunHo Lin)
-Version: v0.0.4
+Version: v0.0.5
 '''
 
 import pandas as pd
