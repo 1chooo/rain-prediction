@@ -2,7 +2,7 @@
 '''
 Create Date: 2023/08/26
 Author: @1chooo(Hugo ChunHo Lin)
-Version: v0.0.5
+Version: v0.0.6
 '''
 
 from os.path import join
@@ -25,7 +25,7 @@ def train():
 
     get_trained_result(accuracy, recall, precision, confusion)
 
-    # proba = lr.predict_proba(X_test)[:, 1]
+    proba = lr.predict_proba(X_test)[:, 1]
 
     # plot_all_evaluation_plots(confusion, accuracy, recall, precision, proba)
 
@@ -44,3 +44,5 @@ def train():
     )
 
     save_model(lr, output_model_path, 3)
+
+    return confusion, accuracy, recall, precision, proba
