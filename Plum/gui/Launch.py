@@ -26,12 +26,15 @@ def build_ui(confusion, accuracy, recall, precision, proba):
             motivation = generate_motivation()
         with gr.Tab("歡迎試玩我們的模型"):
             playground = generate_playground()
-        with gr.Tab("我們對資料做了哪些努力"):
-            data_process = generate_data_process()
-        with gr.Tab("建立訓練模型過程"):
-            trained_process = generate_trained_process()
-        with gr.Tab("模型訓練結果"):
-            trained_result = generate_trained_results(confusion, accuracy, recall, precision, proba)
+        with gr.Tab("試玩歷史紀錄"):
+            toy_history = generate_playground()
+        with gr.Tab("我們如何訓練模型"):
+            with gr.Tab("我們對資料做了哪些努力"):
+                data_process = generate_data_process()
+            with gr.Tab("建立訓練模型過程"):
+                trained_process = generate_trained_process()
+            with gr.Tab("模型訓練結果"):
+                trained_result = generate_trained_results(confusion, accuracy, recall, precision, proba)
 
     demo.launch(
         # enable_queue=True,
